@@ -1,11 +1,7 @@
 import sys
 import os
 
-# Force Python to look locally inside your portable folder first
-# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "lib", "site-packages")))
-
 import streamlit as st
-import streamlit.components.v1 as components
 import yt_dlp
 import validators
 import base64
@@ -83,8 +79,6 @@ kofi_html = f"""
 </div>
 """
 
-# App UI Headers
-#st.title("ዮቱብ፣ ፈይስብክ፣ ትዊተር ቪድዮ ዳውንሎደር ካብ ሹቅ ፕሮ ማክስ")
 # App UI Headers (Centered & Two Lines using custom HTML markdown)
 st.markdown(
     """
@@ -201,9 +195,10 @@ if submit_button:
                         </p>
                     </div>
                 """
-                components.html(custom_download_html, height=140)
+                # Replaced components.html with st.markdown
+                st.markdown(custom_download_html, unsafe_allow_html=True)
         else:
             st.error("እዛ ቪድዮ ክትረክብ ኣይከኣለን። ብህዝባዊ መንገዲ (Public) ምዃኑ የረጋግጹ።")
 
-# Render Support Widget
-components.html(kofi_html, height=350)
+# Render Support Widget (Replaced components.html with st.markdown)
+st.markdown(kofi_html, unsafe_allow_html=True)
