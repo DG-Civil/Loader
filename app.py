@@ -33,7 +33,9 @@ if os.path.exists(icon_path):
 icon_html = f'<img src="data:{mime_type};base64,{icon_base64}" width="250" height="250" style="vertical-align: middle;" />' if icon_base64 else '<span style="font-size: 40px;">📋</span>'
 
 # 3. Side-by-side layout (Beer emoji 🍻 replaced with clipboard-drunk icon or text style)
-drunk_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.ico")
+#drunk_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.ico")
+# Fallback to an emoji if the image doesn't load
+drunk_img_html = '<span style="font-size: 60px;">🍻</span>'
 drunk_base64 = ""
 drunk_mime = "image/x-icon"
 if os.path.exists(drunk_icon_path):
@@ -108,6 +110,9 @@ def get_video_stream_url(video_url):
         'format': 'best[ext=mp4]/bestvideo[ext=mp4]+bestaudio[ext=m4a]/best',
         'quiet': True,
         'no_warnings': True,
+        'geo_bypass': True,
+        'nocheckcertificate': True,
+        'socket_timeout': 15,  # Prevents it from hanging indefinitely
         'extractor_args': {
             'youtube': {
                 'player_client': ['android', 'web']
