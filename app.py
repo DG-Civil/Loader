@@ -16,38 +16,29 @@ st.set_page_config(
     layout="centered"
 )
 
+# Helper function to load local PNG files as base64 strings
+def load_png_as_base64(image_path):
+    if os.path.exists(image_path):
+        with open(image_path, "rb") as f:
+            return base64.b64encode(f.read()).decode("utf-8")
+    return ""
+
+
 # 2. Support Widget Icon Configuration (Using clipboard.ico for the left side image)
-icon_path = os.path.join(os.path.dirname(__file__), "clipboard.ico")
-icon_base64 = ""
-mime_type = "image/x-icon"
+icon_path = os.path.join(os.path.dirname(__file__), "clipboard.png")
+icon_base64 = load_png_as_base64(icon_path)
 
-if os.path.exists(icon_path):
-    with open(icon_path, "rb") as f:
-        icon_bytes = f.read()
-        icon_base64 = base64.b64encode(icon_bytes).decode("utf-8")
-        
-    if icon_bytes.startswith(b'\x89PNG\r\n\x1a\n'):
-        mime_type = "image/png"
+icon_html = f'<img src="data:image/png;base64,{icon_base64}" width="250" height="250" style="vertical-align: middle;" />' if icon_base64 else '<span style="font-size: 40px;">📋</span>'
 
-# Build a larger icon snippet for the left side of the widget
-icon_html = f'<img src="data:{mime_type};base64,{icon_base64}" width="250" height="250" style="vertical-align: middle;" />' if icon_base64 else '<span style="font-size: 40px;">📋</span>'
 
 # 3. Side-by-side layout (Beer emoji 🍻 replaced with clipboard-drunk icon or text style)
-drunk_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.ico")
-# Fallback to an emoji if the image doesn't load
-drunk_base64 = ""
-drunk_mime = "image/x-icon"
-if os.path.exists(drunk_icon_path):
-    with open(drunk_icon_path, "rb") as f:
-        drunk_bytes = f.read()
-        drunk_base64 = base64.b64encode(drunk_bytes).decode("utf-8")
-    if drunk_bytes.startswith(b'\x89PNG\r\n\x1a\n'):
-        drunk_mime = "image/png"
-        
-drunk_img_html = '<span style="font-size: 60px;">🍻</span>'
+drunk_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.png")
+drunk_base64 = load_png_as_base64(drunk_icon_path)
+
+drunk_img_html = f'<img src="data:image/png;base64,{drunk_base64}" width="150" height="150" style="vertical-align: middle; margin-right: 6px;" />' if drunk_base64 else '<span style="font-size: 60px;">🍻</span>'
 
 
-drunk_img_html = f'<img src="data:{drunk_mime};base64,{drunk_base64}" width="150" height="150" style="vertical-align: middle; margin-right: 6px;" />' if drunk_base64 else ''
+
 
 # 3D Text Shadow & Mask Style
 text_3d_style = "font-size: 36px; font-weight: bold; color: #222222; text-shadow: 5px 5px 3px #ffffff, 5px 5px 2px #29abe0, 12px 12px 10px rgba(0,0,0,0.3); line-height: 1.2;"
