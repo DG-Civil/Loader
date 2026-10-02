@@ -47,27 +47,12 @@ else:
 text_3d_style = "font-size: 36px; font-weight: bold; color: #222222; text-shadow: 5px 5px 3px #ffffff, 5px 5px 2px #29abe0, 12px 12px 10px rgba(0,0,0,0.3); line-height: 1.2;"
 
 # Using textwrap.dedent() with valid inline span wrappers inside <a> to prevent parser breakage
-kofi_html = textwrap.dedent(f"""
+kofi_html = f"""
 <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; font-family: sans-serif;">
-  <a href="https://ko-fi.com/yourusername" target="_blank" style="
-      background-color: transparent;
-      color: #333333;
-      padding: 15px 25px;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 20px;
-      border: 3px solid #29abe0;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 16px;
-  ">
-    <!-- Left Side: Large Icon -->
+  <a href="https://ko-fi.com/yourusername" target="_blank" style="background-color: transparent; color: #333333; padding: 15px 25px; text-decoration: none; font-weight: bold; border-radius: 20px; border: 3px solid #29abe0; display: flex; flex-direction: row; align-items: center; gap: 16px;">
     <span style="display: flex; align-items: center;">
       {icon_html}
     </span>
-    
-    <!-- Right Side: Three Lines Stacked Top-to-Bottom -->
     <span style="display: flex; flex-direction: column; text-align: left; gap: 4px;">
       <span style="font-size: 100px; line-height: 1.0; display: flex; align-items: center;">{drunk_img_html}</span>
       <span style="{text_3d_style} display: flex; align-items: center;">ችርስ</span>
@@ -76,7 +61,7 @@ kofi_html = textwrap.dedent(f"""
     </span>
   </a>
 </div>
-""")
+"""
 
 # App UI Headers (Centered & Two Lines using custom HTML markdown)
 st.markdown(
