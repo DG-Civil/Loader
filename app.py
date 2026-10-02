@@ -28,15 +28,19 @@ def load_png_as_base64(image_path):
 icon_path = os.path.join(os.path.dirname(__file__), "clipboard.png")
 icon_base64 = load_png_as_base64(icon_path)
 
-icon_html = f'<img src="data:image/png;base64,{icon_base64}" width="250" height="250" style="vertical-align: middle;" />' if icon_base64 else '<span style="font-size: 40px;">📋</span>'
-
+if icon_base64:
+    icon_html = f'<img src="data:image/png;base64,{icon_base64}" width="250" height="250" style="vertical-align: middle;" />'
+else:
+    icon_html = '<span style="font-size: 100px;">📋</span>'
 
 # 3. Side-by-side layout (Beer emoji 🍻 replaced with clipboard-drunk icon or text style)
 drunk_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.png")
 drunk_base64 = load_png_as_base64(drunk_icon_path)
 
-drunk_img_html = f'<img src="data:image/png;base64,{drunk_base64}" width="150" height="150" style="vertical-align: middle; margin-right: 6px;" />' if drunk_base64 else '<span style="font-size: 60px;">🍻</span>'
-
+if drunk_base64:
+    drunk_img_html = f'<img src="data:image/png;base64,{drunk_base64}" width="150" height="150" style="vertical-align: middle; margin-right: 6px;" />'
+else:
+    drunk_img_html = '<span style="font-size: 60px;">🍻</span>'
 
 
 
