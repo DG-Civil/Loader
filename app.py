@@ -1,15 +1,17 @@
 import sys
 import os
+import textwrap
 
 import streamlit as st
 import yt_dlp
 import validators
 import base64
 
-# 1. Page Icon Configuration (Using clipboard-drunk.ico for the browser tab)
-page_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.ico")
+# 1. Page Icon Configuration
+page_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.png")
+if not os.path.exists(page_icon_path):
+    page_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.ico")
 
-# Set up page configurations
 st.set_page_config(
     page_title="ሹቅ ፕሮ ማክስ", 
     page_icon=page_icon_path if os.path.exists(page_icon_path) else "📥", 
@@ -23,8 +25,7 @@ def load_png_as_base64(image_path):
             return base64.b64encode(f.read()).decode("utf-8")
     return ""
 
-
-# 2. Support Widget Icon Configuration (Using clipboard.ico for the left side image)
+# 2. Support Widget Icon Configuration (Left Side Image)
 icon_path = os.path.join(os.path.dirname(__file__), "clipboard.png")
 icon_base64 = load_png_as_base64(icon_path)
 
@@ -33,7 +34,7 @@ if icon_base64:
 else:
     icon_html = '<span style="font-size: 100px;">📋</span>'
 
-# 3. Side-by-side layout (Beer emoji 🍻 replaced with clipboard-drunk icon or text style)
+# 3. Side-by-side layout icon configuration (Drink Icon)
 drunk_icon_path = os.path.join(os.path.dirname(__file__), "clipboard-drunk.png")
 drunk_base64 = load_png_as_base64(drunk_icon_path)
 
@@ -42,12 +43,11 @@ if drunk_base64:
 else:
     drunk_img_html = '<span style="font-size: 60px;">🍻</span>'
 
-
-
 # 3D Text Shadow & Mask Style
 text_3d_style = "font-size: 36px; font-weight: bold; color: #222222; text-shadow: 5px 5px 3px #ffffff, 5px 5px 2px #29abe0, 12px 12px 10px rgba(0,0,0,0.3); line-height: 1.2;"
 
-kofi_html = f"""
+# Using textwrap.dedent() prevents Streamlit from treating indented HTML as code blocks
+kofi_html = textwrap.dedent(f"""
 <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px; font-family: sans-serif;">
   <a href="https://ko-fi.com/yourusername" target="_blank" style="
       background-color: transparent;
@@ -76,7 +76,7 @@ kofi_html = f"""
     </div>
   </a>
 </div>
-"""
+""")
 
 # App UI Headers (Centered & Two Lines using custom HTML markdown)
 st.markdown(
@@ -98,7 +98,6 @@ with st.form(key="download_form"):
         placeholder="https://youtube.com... or https://x.com/... or https://facebook.com..."
     )
     
-    # Submit button for the form (acts as our search button)
     submit_button = st.form_submit_button(label="🔍 ቪድዮ ድለ (Search / Prepare)")
 
 # Extraction Function
@@ -109,7 +108,7 @@ def get_video_stream_url(video_url):
         'no_warnings': True,
         'geo_bypass': True,
         'nocheckcertificate': True,
-        'socket_timeout': 15,  # Prevents it from hanging indefinitely
+        'socket_timeout': 15,
         'extractor_args': {
             'youtube': {
                 'player_client': ['android', 'web']
@@ -139,7 +138,6 @@ def get_video_stream_url(video_url):
         st.error(f"Error fetching video data: {str(e)}")
         return None
 
-# Trigger search when the form button is clicked and text is entered
 if submit_button:
     if not user_url:
         st.warning("በጃኻ ሊንክ ኣእቱ (Please enter a URL first).")
@@ -160,7 +158,6 @@ if submit_button:
                 unsafe_allow_html=True
             )
             
-            # SIDE-BY-SIDE LAYOUT: Thumbnail on left, Download component on right
             col1, col2 = st.columns([1, 1])
             
             with col1:
@@ -172,7 +169,7 @@ if submit_button:
                 if not safe_title:
                     safe_title = "video_download"
 
-                custom_download_html = f"""
+                custom_download_html = textwrap.dedent(f"""
                     <div style="display: flex; flex-direction: column; align-items: stretch; font-family: sans-serif;">
                         <a href="{video_data['download_url']}" 
                             download="{safe_title}.mp4" 
@@ -196,11 +193,10 @@ if submit_button:
                           📱 <b>Mobile Tip:</b> If it opens in a new tab, hold/tap browser menu and select <b>"Download"</b>.
                         </p>
                     </div>
-                """
-                # Replaced components.html with st.markdown
+                """)
                 st.markdown(custom_download_html, unsafe_allow_html=True)
         else:
             st.error("እዛ ቪድዮ ክትረክብ ኣይከኣለን። ብህዝባዊ መንገዲ (Public) ምዃኑ የረጋግጹ።")
 
-# Render Support Widget (Replaced components.html with st.markdown)
+# Render Support Widget
 st.markdown(kofi_html, unsafe_allow_html=True)
