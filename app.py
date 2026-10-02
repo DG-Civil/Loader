@@ -67,8 +67,10 @@ kofi_html = f"""
 st.markdown(
     """
     <h1 style="text-align: center; font-size: 2.2rem; line-height: 1.3;">
-        ዮቱብ፣ ፈይስብክ፣ ትዊተር ቪድዮ <br>
-        ዳውንሎደር ካብ ሹቅ ፕሮ ማክስ
+        <span style="color: #FF0000;">▶</span> ዮቱብ፣ 
+        <span style="color: #1877F2; font-family: Arial, sans-serif; font-weight: 900;">🅕</span> ፈይስብክ፣ 
+        <span>𝕏</span> ትዊተር <br> ቪድዮ ዳውንሎደር <br>
+        ካብ ሹቅ ፕሮ ማክስ
     </h1>
     """, 
     unsafe_allow_html=True
